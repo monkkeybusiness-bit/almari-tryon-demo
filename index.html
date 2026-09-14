@@ -72,12 +72,6 @@
       },
     ];
 
-    AlmariTryOn.init({
-      apiKey: "atk_2Gq4EsMxfkc5VgDDgV0h9FFn5xFfvD5",
-      baseUrl: "https://cvoetyaqkunmyinsvwme.supabase.co/functions/v1",
-      gender: "male",
-    });
-
     const grid = document.getElementById("product-grid");
     for (const p of PRODUCTS) {
       const card = document.createElement("div");
@@ -98,6 +92,12 @@
       `;
       grid.appendChild(card);
     }
+
+    AlmariTryOn.init({
+      apiKey: "atk_2Gq4EsMxfkc5VgDDgV0h9FFn5xFfvD5",
+      baseUrl: "https://cvoetyaqkunmyinsvwme.supabase.co/functions/v1",
+      gender: "male",
+    });
   </script>
 </body>
 </html>

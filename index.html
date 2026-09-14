@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aurelle — Demo Storefront</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #EFEFEF; color: #0A0A0A; }
+  header { background: #fff; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid #EEE; position: sticky; top: 0; z-index: 10; }
+  header .logo { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
+  header .tag { font-size: 12px; color: #888; }
+  .banner { max-width: 900px; margin: 24px auto 0; padding: 0 24px; }
+  .banner-inner { background: #0A0A0A; color: #fff; border-radius: 16px; padding: 20px 24px; font-size: 14px; line-height: 1.5; }
+  .banner-inner b { color: #fff; }
+  .grid { max-width: 900px; margin: 24px auto 60px; padding: 0 24px; display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .card img { width: 100%; height: 260px; object-fit: cover; display: block; }
+  .card-body { padding: 16px; }
+  .card-name { font-weight: 700; font-size: 15px; margin: 0 0 2px; }
+  .card-price { color: #888; font-size: 13px; margin: 0 0 12px; }
+  .tryon-btn { display: block; width: 100%; height: 44px; border-radius: 10px; border: 1.5px solid #0A0A0A;
+    background: #fff; color: #0A0A0A; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .tryon-btn:hover { background: #0A0A0A; color: #fff; }
+  footer { text-align: center; padding: 30px; color: #aaa; font-size: 12px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo">AURELLE</div>
+    <div class="tag">demo storefront — powered by Almari Try-On</div>
+  </header>
+
+  <div class="banner">
+    <div class="banner-inner">
+      This page is a fake storefront built to show the <b>Almari Try-On API</b> running as a plug-and-play widget —
+      one script tag (<code>widget.js</code>), zero backend work. Click <b>Try It On</b> on any item below,
+      upload a photo once, and watch a real generated try-on image come back from the live API.
+    </div>
+  </div>
+
+  <div class="grid" id="product-grid"></div>
+
+  <footer>Aurelle is a fictional demo brand. Product photos via Unsplash.</footer>
+
+  <script src="https://cvoetyaqkunmyinsvwme.supabase.co/storage/v1/object/public/demo/widget.js"></script>
+  <script>
+    const PRODUCTS = [
+      {
+        name: "Vegan Leather Biker Jacket",
+        price: "$189",
+        image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=80",
+        category: "jacket",
+        description: "black vegan leather biker jacket with silver hardware",
+      },
+      {
+        name: "Classic Straight Jeans",
+        price: "$79",
+        image: "https://images.unsplash.com/photo-1637069585336-827b298fe84a?w=800&q=80",
+        category: "jeans",
+        description: "medium wash straight-leg denim jeans",
+      },
+      {
+        name: "Gold Charm Necklace",
+        price: "$45",
+        image: "https://images.unsplash.com/photo-1717282924526-07a7373bb142?w=800&q=80",
+        category: "necklace",
+        description: "delicate gold chain necklace with small round charms",
+      },
+    ];
+
+    AlmariTryOn.init({
+      apiKey: "atk_2Gq4EsMxfkc5VgDDgV0h9FFn5xFfvD5",
+      baseUrl: "https://cvoetyaqkunmyinsvwme.supabase.co/functions/v1",
+      gender: "male",
+    });
+
+    const grid = document.getElementById("product-grid");
+    for (const p of PRODUCTS) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.name}" />
+        <div class="card-body">
+          <p class="card-name">${p.name}</p>
+          <p class="card-price">${p.price}</p>
+          <button class="tryon-btn"
+            data-almari-tryon
+            data-image-url="${p.image}"
+            data-category="${p.category}"
+            data-description="${p.description}">
+            Try It On
+          </button>
+        </div>
+      `;
+      grid.appendChild(card);
+    }
+  </script>
+</body>
+</html>
